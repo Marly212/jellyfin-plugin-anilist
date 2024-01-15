@@ -12,6 +12,7 @@ using MediaBrowser.Controller.Entities.Movies;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Providers;
+using System.Linq;
 
 namespace Jellyfin.Plugin.AniList.Providers.AniList
 {
@@ -55,6 +56,28 @@ namespace Jellyfin.Plugin.AniList.Providers.AniList
                             Type = ImageType.Primary,
                             Url = media.GetImageUrl()
                         });
+
+                        var sequel = media.relations.edges.Find(r => r.relationType == "SEQUEL");
+                        
+                        while (sequel != null)
+                        {
+                            media = await _aniListApi.GetAnime(sequel.node.id.ToString());
+
+                            if (media == null || media.GetImageUrl() == null)
+                            {
+                                break;
+                            }
+
+                            list.Add(new RemoteImageInfo
+                            {
+                                ProviderName = Name,
+                                Type = ImageType.Primary,
+                                Url = media.GetImageUrl(),
+                                
+                            });
+
+                            sequel = media.relations.edges.Find(r => r.relationType == "SEQUEL");
+                        }
                     }
 
                     if (media.bannerImage != null)

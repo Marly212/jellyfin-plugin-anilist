@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -69,6 +69,15 @@ query($id: Int!, $type: MediaType) {
       extraLarge
     }
     bannerImage
+    relations {
+      edges{
+      	relationType
+        id
+        node {
+          id
+        }
+      }
+    }
     format
     type
     status

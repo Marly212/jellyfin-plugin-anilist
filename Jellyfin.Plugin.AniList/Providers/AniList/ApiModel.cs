@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -128,6 +128,7 @@ namespace Jellyfin.Plugin.AniList.Providers.AniList
     {
         public int? averageScore { get; set; }
         public string bannerImage { get; set; }
+        public Relations relations { get; set; }
         public object chapters { get; set; }
         public Characters characters { get; set; }
         public string description { get; set; }
@@ -327,6 +328,40 @@ namespace Jellyfin.Plugin.AniList.Providers.AniList
     {
         public string medium { get; set; }
         public string large { get; set; }
+    }
+
+    public class Node
+    {
+        public int id { get; set; }
+    }
+
+    //public enum RelationType
+    //{
+    //    ADAPTATION,
+    //    PREQUEL,
+    //    SEQUEL,
+    //    PARENT,
+    //    SIDE_STORY,
+    //    CHARACTER,
+    //    SUMMARY,
+    //    ALTERNATIVE,
+    //    SPIN_OFF,
+    //    OTHER,
+    //    SOURCE,
+    //    COMPILATION,
+    //    CONTAINS
+    //}
+
+    public class Edge
+    {
+        public string relationType { get; set; }
+        public int id { get; set; }
+        public Node node { get; set; }
+    }
+
+    public class Relations
+    {
+        public List<Edge> edges { get; set; }
     }
 
     public class Character
